@@ -1,6 +1,7 @@
-os = require('os')
-app = require('express.io')()
-app.http().io()
+os = require('os');
+app = require('express.io')();
+express = require('express');
+app.http().io();
 
 // Setup the ready route, and emit talk event.
 app.io.route('ready', function(req) {
@@ -11,6 +12,8 @@ app.io.route('ready', function(req) {
 	totalmem: JSON.stringify(os.totalmem())
     })
 })
+
+app.use(express.static(__dirname));
 
 // Send the client html.
 app.get('/', function(req, res) {

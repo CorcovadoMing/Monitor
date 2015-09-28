@@ -1,26 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="/socket.io/socket.io.js"></script>
-<script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="./canvasjs.min.js"></script>
+	<script>
+	var chart;
+
+	var totalmem = [];
+	var freemem = [];
+
+	var data_length = 500;
+	var x_val = 0;
+
+	for(x_val = 0; x_val < data_length; x_val += 1) {
+		totalmem.push({ x: x_val, y: '' });
+		freemem.push({ x: x_val, y: '' });
+	}
+
 	io = io.connect();
 	io.on('talk', function(data) {
     		document.getElementById('cpus').innerHTML = data.cpus;
 		document.getElementById('freemem').innerHTML = data.freemem;
 		document.getElementById('totalmem').innerHTML = data.totalmem;
-	}) 
-</script>
+		totalmem.push({ x: x_val, y: parseInt(data.totalmem) });
+		totalmem.shift();
+		freemem.push({ x: x_val, y: parseInt(data.totalmem) - parseInt(data.freemem) });
+		freemem.shift();
+		x_val += 1;
+		chart.render();
+
+	})
+	</script>
 </head>
 <body>
 	<h1>Hello</h1>
 	<div id='cpus'></div>
 	<div id='freemem'></div>
 	<div id='totalmem'></div>
+	<div id="chartContainer" style="height: 300px; width:100%;"></div>
+
 	<script>
+	io.emit('ready');
+	setInterval(function() {
 		io.emit('ready');
-		setInterval(function() {
-			io.emit('ready');
-		}, 1000);
+	}, 100);
+	
+	var chart = new CanvasJS.Chart("chartContainer",{
+		title :{
+			text: "Memory Usage: "
+		},			
+		data: [
+		{
+			type: "stackedArea",
+			dataPoints: freemem 
+		},
+		{
+			type: "stackedArea",
+			dataPoints: totalmem
+		}
+		]
+	});
 	</script>
+
 </body>
 </html>
