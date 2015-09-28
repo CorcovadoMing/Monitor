@@ -1,15 +1,16 @@
 app = require('express.io')()
 app.http().io()
 
-// Setup the ready route.
+// Setup the ready route, and emit talk event.
 app.io.route('ready', function(req) {
-    req.io.respond({
-        success: 'here is your acknowledegment for the ready event'
+    req.io.emit('talk', {
+        message: 'io event from an io route on the server'
     })
 })
 
+// Send the client html.
 app.get('/', function(req, res) {
     res.sendfile(__dirname + '/index.html')
 })
 
-app.listen(3000)
+app.listen(7076)
