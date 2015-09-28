@@ -19,9 +19,11 @@
 
 	io = io.connect();
 	io.on('talk', function(data) {
+		document.getElementById('title').innerHTML = 'Host: ' + data.hostname;
     		document.getElementById('cpus').innerHTML = data.cpus;
 		document.getElementById('freemem').innerHTML = data.freemem;
 		document.getElementById('totalmem').innerHTML = data.totalmem;
+
 		totalmem.push({ x: x_val, y: parseInt(data.totalmem) });
 		totalmem.shift();
 		freemem.push({ x: x_val, y: parseInt(data.totalmem) - parseInt(data.freemem) });
@@ -33,7 +35,7 @@
 	</script>
 </head>
 <body>
-	<h1>Hello</h1>
+	<h1 id='title'></h1>
 	<div id='cpus'></div>
 	<div id='freemem'></div>
 	<div id='totalmem'></div>
