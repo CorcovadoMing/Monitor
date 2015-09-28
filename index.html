@@ -6,11 +6,17 @@
 	io = io.connect()
 	io.emit('ready') 
 	io.on('talk', function(data) {
-    		alert(data.message)
+    		document.getElementById('cpus').innerHTML = data.cpus;
+		document.getElementById('freemem').innerHTML = data.freemem;
+		document.getElementById('totalmem').innerHTML = data.totalmem;
+		setTimeout(io.emit('ready'), 1000);
 	})  
 </script>
 </head>
 <body>
-	<h1>Hello<h1/>
+	<h1>Hello</h1>
+	<div id='cpus'></div>
+	<div id='freemem'></div>
+	<div id='totalmem'></div>
 </body>
 </html>

@@ -1,10 +1,13 @@
+os = require('os')
 app = require('express.io')()
 app.http().io()
 
 // Setup the ready route, and emit talk event.
 app.io.route('ready', function(req) {
     req.io.emit('talk', {
-        message: 'io event from an io route on the server'
+        cpus: JSON.stringify(os.cpus()),
+	freemem: JSON.stringify(os.freemem()),
+	totalmem: JSON.stringify(os.totalmem())
     })
 })
 
