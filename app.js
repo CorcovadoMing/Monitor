@@ -3,9 +3,7 @@ app = require('express.io')();
 express = require('express');
 app.http().io();
 
-// Setup the ready route, and emit talk event.
 app.io.route('ready', function(req) {
-    console.log('Got called');
     req.io.emit('talk', {
 	hostname: os.hostname(),
         cpus: JSON.stringify(os.cpus()),
@@ -16,7 +14,6 @@ app.io.route('ready', function(req) {
 
 app.use(express.static(__dirname));
 
-// Send the client html.
 app.get('/', function(req, res) {
     res.sendfile(__dirname + '/index.html')
 })
