@@ -3,14 +3,12 @@
 <head>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-	io = io.connect()
-	io.emit('ready') 
+	io = io.connect();
 	io.on('talk', function(data) {
     		document.getElementById('cpus').innerHTML = data.cpus;
 		document.getElementById('freemem').innerHTML = data.freemem;
 		document.getElementById('totalmem').innerHTML = data.totalmem;
-		setTimeout(io.emit('ready'), 1000);
-	})  
+	}) 
 </script>
 </head>
 <body>
@@ -18,5 +16,11 @@
 	<div id='cpus'></div>
 	<div id='freemem'></div>
 	<div id='totalmem'></div>
+	<script>
+		io.emit('ready');
+		setInterval(function() {
+			io.emit('ready');
+		}, 1000);
+	</script>
 </body>
 </html>
