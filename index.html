@@ -34,6 +34,7 @@
 		totalmem.shift();
 		freemem.push({ x: cur_time, y: (((parseFloat(data.totalmem) - parseFloat(data.freemem))/1024)/1024)/1024 });
 		freemem.shift();
+                document.getElementById('debug').innerHTML = totalmem.length;
 		chart.render();
 
 	})
@@ -44,6 +45,7 @@
 	<div id='cpus'></div>
 	<div id='freemem'></div>
 	<div id='totalmem'></div>
+	<div id='debug'></div>
 	<div id="chartContainer" style="height: 300px; width:100%;"></div>
 
 	<script>
